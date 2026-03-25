@@ -20,41 +20,6 @@
     .reveal, .reveal-item { opacity: 1 !important; transform: none !important; }
     .hero-content { opacity: 1 !important; transform: none !important; }
   </style>
-  <!-- Landbot Custom Launcher Styles -->
-  <style>
-    #custom-landbot-launcher {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      width: 62px;
-      height: 62px;
-      background: #1a0f08;
-      border: 1px solid var(--gold);
-      border-radius: 50%;
-      cursor: pointer;
-      z-index: 10001; /* Above almost everything */
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 15px rgba(200,169,106,0.2);
-      display: flex; /* Shown immediately */
-      align-items: center;
-      justify-content: center;
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      overflow: hidden;
-    }
-    #custom-landbot-launcher:hover {
-      transform: scale(1.1) rotate(5deg);
-      box-shadow: 0 15px 40px rgba(200,169,106,0.3);
-    }
-    #custom-landbot-launcher img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    @media (max-width: 768px) {
-      #custom-landbot-launcher {
-        bottom: 20px;
-      }
-    }
-  </style>
 
   <!-- Firebase Integration -->
   <script type="module">
@@ -74,54 +39,8 @@
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
   </script>
-
-  <script>
-    window.addEventListener('mouseover', initLandbot, { once: true });
-    window.addEventListener('touchstart', initLandbot, { once: true });
-    window.addEventListener('scroll', initLandbot, { once: true });
-    
-    var myLandbot;
-    function initLandbot() {
-      if (!myLandbot) {
-        myLandbot = true; // Temporary flag to avoid double script injection
-        var s = document.createElement('script');
-        s.type = "module"
-        s.async = true;
-        s.onload = () => {
-          myLandbot = new Landbot.Livechat({
-             configUrl: 'https://storage.googleapis.com/landbot.online/v3/H-3374822-1AJUTAJBC9U60JB5/index.json',
-             launcherOptions: { enable: false } // Force hide official logo
-          });
-          myLandbot.on('landbot-load', () => myLandbot.setLauncherOptions({ enable: false }));
-        };
-        s.src = 'https://cdn.landbot.io/landbot-3/landbot-3.0.0.mjs';
-        var x = document.getElementsByTagName('script')[0];
-        x.parentNode.insertBefore(s, x);
-      }
-    }
-
-    function toggleChatbot() {
-      if (myLandbot === true) return; // Still loading script
-      if (!myLandbot) {
-        initLandbot();
-        // Wait for it to be ready, then open
-        const checkReady = setInterval(() => {
-          if (myLandbot && typeof myLandbot.openChat === 'function') {
-            myLandbot.openChat();
-            clearInterval(checkReady);
-          }
-        }, 100);
-      } else {
-        myLandbot.openChat();
-      }
-    }
-  </script>
 </head>
 <body>
-  <!-- Custom Landbot Launcher Button -->
-  <div id="custom-landbot-launcher" title="Chat with Us" onclick="toggleChatbot()">
-    <img src="images/kk_bot_icon.png" alt="KK Moulding Chat Icon">
-  </div>
 
 
 <!-- ========== STICKY BUTTONS ========== -->
